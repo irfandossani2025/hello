@@ -3,10 +3,6 @@ name: Temporary Whisper Assets
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  push:
-    branches: [claude/node12-plesk-setup-nYkYV]
-    paths: [.github/workflows/whisper-assets.yml]
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -28,18 +24,18 @@ jobs:
           chmod +x whisper-assets/whisper-cli
           whisper-assets/whisper-cli --help >/dev/null
 
-      - name: Download multilingual Whisper small q5 model
+      - name: Download multilingual Whisper base q5 model
         run: |
           set -euo pipefail
           curl -fL --retry 3 \
-            "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small-q5_1.bin" \
-            -o whisper-assets/ggml-small-q5_1.bin
-          test -s whisper-assets/ggml-small-q5_1.bin
+            "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin" \
+            -o whisper-assets/ggml-base-q5_1.bin
+          test -s whisper-assets/ggml-base-q5_1.bin
 
       - name: Upload local transcription assets
         uses: actions/upload-artifact@v4
         with:
-          name: whisper-local-assets
+          name: whisper-base-assets
           path: whisper-assets/
           compression-level: 0
           retention-days: 1
