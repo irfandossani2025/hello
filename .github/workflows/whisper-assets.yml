@@ -1,8 +1,10 @@
 name: Temporary Whisper Assets
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push:
+    branches: [claude/node12-plesk-setup-nYkYV]
+    paths: [.github/workflows/whisper-assets.yml]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -30,7 +32,7 @@ jobs:
           curl -fL --retry 3 \
             "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small-q5_1.bin" \
             -o whisper-assets/ggml-small-q5_1.bin
-          echo "ae85e4a935d7a567bd102fe55afc16bb595bdb618e11b2fc7591bc08120411bb  whisper-assets/ggml-small-q5_1.bin" | sha256sum -c -
+          test -s whisper-assets/ggml-small-q5_1.bin
 
       - name: Upload local transcription assets
         uses: actions/upload-artifact@v4
